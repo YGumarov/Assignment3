@@ -1,4 +1,6 @@
-﻿public class MyHashTable<K, V> {
+﻿namespace Assignment3;
+
+public class MyHashTable<K, V> {
     private class HashNode<K, V>
     {
         private K key;
@@ -20,9 +22,25 @@
     private HashNode<K, V>[] chainArray;
     private int M = 11;
     private int size;
-    public MyHashTable() {…}
-    public MyHashTable(int M) {…}
-    private int hash(K key) {…}
+
+    public MyHashTable()
+    {
+        chainArray = new HashNode<K, V>[M];
+        size = 0;
+    }
+
+    public MyHashTable(int M)
+    {
+        this.M = M;
+        chainArray = new HashNode<K, V>[M];
+        size = 0;
+    }
+
+    private int hash(K key)
+    {
+        int hashCode = key.GetHashCode();
+        return hashCode % M;
+    }
     public void put(K key, V value) {…}
     public V get(K key) {…}
     public V remove(K key) {…}
