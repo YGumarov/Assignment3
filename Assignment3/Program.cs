@@ -1,4 +1,6 @@
-﻿public class MyHashTable<K, V>
+﻿namespace Assignment3;
+
+public class MyHashTable<K, V>
 {
     private class HashNode<K, V>
     {
@@ -95,12 +97,15 @@
                 {
                     prev.next = node.next;
                 }
+
                 size--;
                 return node.value;
             }
+
             prev = node;
             node = node.next;
         }
+
         throw new ArgumentException("Key not found");
     }
 
@@ -115,9 +120,11 @@
                 {
                     return true;
                 }
+
                 node = node.next;
             }
         }
+
         return false;
     }
 
@@ -132,9 +139,81 @@
                 {
                     return node.key;
                 }
+
                 node = node.next;
             }
         }
+
         return default(K);
     }
+
+    public class MyTestingClass
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public MyTestingClass(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            MyTestingClass other = (MyTestingClass)obj;
+
+            return Id == other.Id && Name == other.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + Id.GetHashCode();
+            hash = hash * 23 + Name.GetHashCode();
+            return hash;
+        }
+    }
+    public class Student
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Major { get; set; }
+    }
+
+    Random random = new Random();
+
+    MyHashTable<MyTestingClass, Student> table = new MyHashTable<MyTestingClass, Student>();
+        for int= 0; i < 10000; i++)
+         {
+            int id = random.Next(1000);
+            string name = "Name" + id.ToString();
+            MyTestingClass key = new MyTestingClass(id, name);
+            Student value = new Student { Id = id, Name = name, Major = "Major" + id.ToString() };
+            table.Put(key, value);
+         }
+
+        for (int i = 0; i < table.chainArray.Length; i++)
+        {
+            int count = 0;
+            MyHashTable<MyTestingClass, Student>.HashNode<MyTestingClass, Student> node = table.chainArray[i];
+            while (node != null)
+            {
+                count++;
+                node = node.next; 
+            }
+            Console.WriteLine("Bucket " + i.ToString() + ": " + count.ToString() + " elements");
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 31 + Id.GetHashCode();
+            hash = hash * 31 + Name.GetHashCode();
+            return hash;
+        }
 }
