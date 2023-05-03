@@ -184,36 +184,4 @@ public class MyHashTable<K, V>
         public string Name { get; set; }
         public string Major { get; set; }
     }
-
-    Random random = new Random();
-
-    MyHashTable<MyTestingClass, Student> table = new MyHashTable<MyTestingClass, Student>();
-        for int= 0; i < 10000; i++)
-         {
-            int id = random.Next(1000);
-            string name = "Name" + id.ToString();
-            MyTestingClass key = new MyTestingClass(id, name);
-            Student value = new Student { Id = id, Name = name, Major = "Major" + id.ToString() };
-            table.Put(key, value);
-         }
-
-        for (int i = 0; i < table.chainArray.Length; i++)
-        {
-            int count = 0;
-            MyHashTable<MyTestingClass, Student>.HashNode<MyTestingClass, Student> node = table.chainArray[i];
-            while (node != null)
-            {
-                count++;
-                node = node.next; 
-            }
-            Console.WriteLine("Bucket " + i.ToString() + ": " + count.ToString() + " elements");
-        }
-
-        public override int GetHashCode()
-        {
-            int hash = 17;
-            hash = hash * 31 + Id.GetHashCode();
-            hash = hash * 31 + Name.GetHashCode();
-            return hash;
-        }
 }
